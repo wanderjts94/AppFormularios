@@ -10,10 +10,10 @@ object AppMensaje {
         val snackBar=Snackbar.make(vista,mensaje,Snackbar.LENGTH_LONG)
         val  snackbarView: View= snackBar.view
         if (tipoMensaje==TipoMensaje.ERROR){
-            snackbarView.setBackgroundColor(
+            snackBar.setBackgroundTint(
                 ContextCompat.getColor(MiApp.instant,R.color.errorColor))
         }else{
-            snackbarView.setBackgroundColor(
+            snackBar.setBackgroundTint(
                 ContextCompat.getColor(MiApp.instant,R.color.ExitoColor))
         }
         snackBar.show()
