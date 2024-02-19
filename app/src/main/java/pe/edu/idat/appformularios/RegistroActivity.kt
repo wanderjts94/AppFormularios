@@ -3,6 +3,7 @@ package pe.edu.idat.appformularios
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -24,6 +25,7 @@ class RegistroActivity : AppCompatActivity(), View.OnClickListener, AdapterView.
         super.onCreate(savedInstanceState)
         binding = ActivityRegistroBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        Log.i("MensajeInfo","App inicializar")
         binding.btnlistar.setOnClickListener(this)
         binding.btnregistrar.setOnClickListener(this)
         ArrayAdapter.createFromResource(
@@ -34,6 +36,9 @@ class RegistroActivity : AppCompatActivity(), View.OnClickListener, AdapterView.
             binding.spestadocivil.adapter = adapter
         }
         binding.spestadocivil.onItemSelectedListener = this
+        binding.cbdeportes.setOnClickListener(this)
+        binding.cbmusica.setOnClickListener(this)
+        binding.cbotros.setOnClickListener(this)
     }
     override fun onClick(vista: View) {
         if (vista is CheckBox) {
@@ -68,11 +73,12 @@ class RegistroActivity : AppCompatActivity(), View.OnClickListener, AdapterView.
 
     fun registrarPersona(){
       if (validarformulario()){
-          val infopersona= binding.etnombres.toString()+" "+
+          val infopersona= binding.etnombres.text.toString()+" "+
                   binding.etapellidos.text.toString()+ " " +
-                  obtenerGeneroSeleccionado()+ "" +
-                  listaPreferencias.toArray() + "" +
-                  estadocivil + "" +
+                  obtenerGeneroSeleccionado()+ " " +
+                  /* listaPreferencias.toArray() + " " + */
+                  obtenerpreferencia() + " " +
+                  estadocivil + " " +
                   binding.swnotificacion.isChecked
           listapersonas.add(infopersona)
           AppMensaje.enviarmensaje(binding.root,getString(R.string.mensajeRegiscorrecto),TipoMensaje.SUCCESSFULL)
@@ -80,6 +86,14 @@ class RegistroActivity : AppCompatActivity(), View.OnClickListener, AdapterView.
       }
     }
 
+    private fun obtenerpreferencia():String{
+        var preferencia=""
+        for(pref in listaPreferencias){
+            preferencia+= "$pref -"
+        }
+        return preferencia
+
+    }
     private fun stearControles() {
         listaPreferencias.clear()
         binding.etnombres.setText("")
